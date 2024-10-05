@@ -161,6 +161,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void increaseGameRound() {
+        MainManager.Instance.Money += 5;
+        SceneManager.LoadScene("Shop Scene");
         gameRound++ ;
         updateEnemyDeck() ;
         refreshEnemy() ;

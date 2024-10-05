@@ -4490,7 +4490,7 @@ MonoBehaviour:
   - {fileID: 455444271}
   - {fileID: 320561201}
   - {fileID: 242769731}
-  gameRound: 7
+  gameRound: 0
 --- !u!4 &760481367
 Transform:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class ShopManagerScript : MonoBehaviour
 {
-    public float money;
+    public int startingMoney;
     public Text MoneyTXT;
 
     public Transform used;
@@ -20,7 +20,7 @@ public class ShopManagerScript : MonoBehaviour
 
     void Start()
     {
-        MoneyTXT.text = "$" + money.ToString();
+        MoneyTXT.text = "$" + MainManager.Instance.Money.ToString();
 
         for (int i = 0; i < 3; i++)
         {
@@ -35,10 +35,10 @@ public class ShopManagerScript : MonoBehaviour
     {
         GameObject ButtonRef = GameObject.FindGameObjectWithTag("Event").GetComponent<EventSystem>().currentSelectedGameObject;
 
-        if (money >= BaseCard.cardValues[ButtonRef.GetComponent<ButtonInfo>().ItemID, 25])
+        if (MainManager.Instance.Money >= BaseCard.cardValues[ButtonRef.GetComponent<ButtonInfo>().ItemID, 25])
         {
-            money -= BaseCard.cardValues[ButtonRef.GetComponent<ButtonInfo>().ItemID, 25];
-            MoneyTXT.text = "$" + money.ToString();
+            MainManager.Instance.Money -= BaseCard.cardValues[ButtonRef.GetComponent<ButtonInfo>().ItemID, 25];
+            MoneyTXT.text = "$" + MainManager.Instance.Money.ToString();
             ButtonRef.transform.position = used.position;
 
         }

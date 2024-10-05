@@ -4165,7 +4165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26afa29f63e3c0d4b8deb21d4c37e38c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 100
+  startingMoney: 0
   MoneyTXT: {fileID: 422014788}
   used: {fileID: 176349175}
   ShopCardSpots:
@@ -6170,6 +6170,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1842324400}
   m_CullTransparentMesh: 1
+--- !u!1 &1849178023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1849178025}
+  - component: {fileID: 1849178024}
+  m_Layer: 0
+  m_Name: MainManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1849178024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849178023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99abcaf38e217b04f9fd70598102b421, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Money: 100
+--- !u!4 &1849178025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849178023}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.27940506, y: 0.17041755, z: 0.05096965}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1861442799
 GameObject:
   m_ObjectHideFlags: 0
@@ -7617,3 +7662,4 @@ SceneRoots:
   - {fileID: 812666720}
   - {fileID: 1102198868}
   - {fileID: 1092923847}
+  - {fileID: 1849178025}
