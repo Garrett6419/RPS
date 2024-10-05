@@ -11,7 +11,7 @@ public class ShopManagerScript : MonoBehaviour
 
     public Transform[] ShopCardSpots;
 
-    public GameObject[] Cards;
+
 
     void Start()
     {
@@ -19,7 +19,7 @@ public class ShopManagerScript : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            Cards[i] = ShopCardSpots[i].transform.position;
+
         }
     }
 
