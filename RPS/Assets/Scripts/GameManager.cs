@@ -1,8 +1,8 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,8 +30,17 @@ public class GameManager : MonoBehaviour
     // GAME VARIABLES
     public int gameRound ;
 
+    // Shop Variables
+    public int Money = 10;
+    public Text moneyText ;
+    public Text roundText ;
+
+
     public void Start() {
         getHand() ;
+        moneyText.text =  "Money: $" + Money ;
+        roundText.text = "Round: " + gameRound ;
+
     }
 
     // Function to draw a random card
@@ -47,10 +56,11 @@ public class GameManager : MonoBehaviour
         }
 
         for(int i = 0 ; i < enemyHandSize ; i++) {
-            Card randCard = enemyDeck[Random.Range(0, enemyDeck.Count)] ;
+            Card randCard = enemyDeck[Random.Range(0, enemyDeckSize)] ;
             randCard.gameObject.SetActive(true) ;
             randCard.transform.position = enemyCardSlots[i].position ;
             enemyDeck.Remove(randCard) ;
+            enemyDeckSize-- ;
             enemyHand.Add(randCard) ;
         }
 
@@ -111,7 +121,8 @@ public class GameManager : MonoBehaviour
     public void resetBoard() {
         for(int i = enemyHandSize - 1 ; i >= 0 ; i--) {
             enemyHand[i].gameObject.SetActive(false) ;
-            enemyDeck.Add(enemyHand[i]) ;
+            enemyDeck.Insert(0, enemyHand[i]) ;
+            enemyDeckSize++ ;
             enemyHand.Remove(enemyHand[i]) ;
         }
         for(int i = Hand.Count -1 ; i >= 0 ; i--) {
@@ -161,13 +172,11 @@ public class GameManager : MonoBehaviour
     }
 
     public void increaseGameRound() {
-        MainManager.Instance.Money += 5;
-        SceneManager.LoadScene("Shop Scene");
         gameRound++ ;
         updateEnemyDeck() ;
         refreshEnemy() ;
         refreshPlayer() ;
-        if(gameRound == 10) {
+        if(gameRound >= 10) {
             playerWins() ;
         }
     }
@@ -187,7 +196,14 @@ public class GameManager : MonoBehaviour
     }
 
     public void updateEnemyDeck() {
-
+        for(int i = 0 ; i < 3 ; i++) {
+            int newCardPos = enemyDeckSize ;
+            int randCard =  Random.Range(newCardPos, enemyDeck.Count) ;
+            Card temp = enemyDeck[randCard] ;
+            enemyDeck.RemoveAt(randCard) ;
+            enemyDeck.Insert(newCardPos, temp) ;
+            enemyDeckSize++ ;
+        }
     }
 
 

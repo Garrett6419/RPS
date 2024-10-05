@@ -4172,7 +4172,7 @@ MonoBehaviour:
   - {fileID: 801982112}
   - {fileID: 1438060910}
   - {fileID: 723787014}
-  deck:
+  shopDeck:
   - {fileID: 1246042559}
   - {fileID: 1462661105}
   - {fileID: 1793574599}
@@ -6199,7 +6199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99abcaf38e217b04f9fd70598102b421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Money: 100
+  deck: []
+  Money: 0
 --- !u!4 &1849178025
 Transform:
   m_ObjectHideFlags: 0

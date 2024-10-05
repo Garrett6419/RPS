@@ -5,6 +5,7 @@ using UnityEngine;
 public class MainManager : MonoBehaviour
 {
     public static MainManager Instance;
+    public List<Card> deck = new List<Card>();
 
     public int Money;
 

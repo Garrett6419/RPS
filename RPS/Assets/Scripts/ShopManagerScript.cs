@@ -14,7 +14,7 @@ public class ShopManagerScript : MonoBehaviour
 
     public Transform[] ShopCardSpots;
 
-    public List<Card> deck = new List<Card>();
+    public List<Card> shopDeck = new List<Card>();
 
 
 
@@ -24,10 +24,10 @@ public class ShopManagerScript : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            Card randCard = deck[Random.Range(0, deck.Count)];
+            Card randCard = shopDeck[Random.Range(0, shopDeck.Count)];
             randCard.gameObject.SetActive(true);
             randCard.transform.position = ShopCardSpots[i].position;
-            deck.Remove(randCard);
+            shopDeck.Remove(randCard);
         }
     }
 

@@ -7,6 +7,9 @@ public class Card : MonoBehaviour
     public int cardType ;
     private GameManager gm ;
 
+    public bool isShopCard  = false ;
+
+
     public static int[,] cardValues = 
     {
         /* Last Column Is Prices */
@@ -42,7 +45,14 @@ public class Card : MonoBehaviour
     }
 
     private void OnMouseDown() {
-        gm.battle(this) ;
+        if(isShopCard) {
+
+            isShopCard = false ;
+        }
+        else {
+            gm.battle(this) ;
+        }
+        
     }
 
     public int getWinner(int enemyCardType) {
