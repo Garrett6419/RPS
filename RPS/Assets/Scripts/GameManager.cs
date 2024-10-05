@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     // PLAYER VARIABLES
     public List<Card> deck = new List<Card>();
+    public int deckSize ;
     public Transform[] cardSlots;
     public int playerHandSize;
     public List<Card> Hand = new List<Card>() ;
@@ -19,16 +20,19 @@ public class GameManager : MonoBehaviour
 
     // ENEMY VARIABLES
     public List<Card> enemyDeck = new List<Card>() ;
+    public int enemyDeckSize ;
     public Transform[] enemyCardSlots;
     public int enemyHandSize;
     public List<Card> enemyHand = new List<Card>() ;
     public int enemyHearts = 3;
     public List<Card> enemyHeartsList = new List<Card>() ;
 
+    // GAME VARIABLES
+    public int gameRound ;
+
     public void Start() {
         getHand() ;
     }
-
 
     // Function to draw a random card
     public void getHand()
@@ -53,10 +57,17 @@ public class GameManager : MonoBehaviour
     }
 
     public void battle(Card playerCard) {
-        int enemyCardType = enemyHand[Random.Range(0, enemyHandSize)].cardType ;
+        int enemyCardType = enemyPickCard();
         int winner = playerCard.getWinner(enemyCardType) ;
         if(winner == 0) {
             resetBoard() ;
+        }
+        else if(winner == 2) {
+            int exp = Random.Range(1,2) ;
+            winner = 1 ;
+            for(int i = 0 ; i < exp ; i++) {
+                winner *= -1 ;
+            }
         }
         else if(winner == 1) {
             dealDamage() ;
@@ -93,7 +104,7 @@ public class GameManager : MonoBehaviour
 
         if(enemyHearts < 1) {
             resetBoard() ;
-            playerWins() ;
+            increaseGameRound() ;
         }
     }
 
@@ -109,7 +120,36 @@ public class GameManager : MonoBehaviour
             Hand.Remove(Hand[i]) ;
         }
         getHand() ;
+    }
 
+    public int enemyPickCard() {
+        int chosenCard = enemyHand[Random.Range(0, enemyHandSize)].cardType ;
+        int[] enemyCardUtility = new int[enemyHandSize] ;
+        int min = 100 ;
+        int max = -100 ;
+        for(int i = 0 ; i < enemyHandSize ; i++) {
+            enemyCardUtility[i] = 0 ;
+            for(int j = 0 ; j < playerHandSize ; j++) {
+                enemyCardUtility[i] -= Hand[j].getWinner(enemyHand[i].cardType) ;
+            }
+            if(enemyCardUtility[i] < min) {
+                min = enemyHand[i].cardType ;
+            }
+            if(enemyCardUtility[i] > max) {
+                max = enemyHand[i].cardType ;
+            }
+        }
+
+        if(gameRound < 3) {
+            return min;
+        }
+        else if(gameRound < 6) {
+            return chosenCard ;
+        }
+        else if(gameRound >= 6) {
+            return max ;
+        }
+        return 0 ;
     }
 
     public void playerWins() {
@@ -120,6 +160,33 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Over!") ;
     }
 
+    public void increaseGameRound() {
+        gameRound++ ;
+        updateEnemyDeck() ;
+        refreshEnemy() ;
+        refreshPlayer() ;
+        if(gameRound == 10) {
+            playerWins() ;
+        }
+    }
+
+    public void refreshEnemy() {
+        enemyHearts = 3 ;
+        for(int i = 0 ; i < enemyHearts ; i++) {
+            enemyHeartsList[i].gameObject.SetActive(true) ;
+        }
+    }
+
+    public void refreshPlayer() {
+        battleHearts = 3 ;
+        for(int i = 0 ; i < battleHearts ; i++) {
+            battleHeartsList[i].gameObject.SetActive(true) ;
+        }
+    }
+
+    public void updateEnemyDeck() {
+
+    }
 
 
 }
