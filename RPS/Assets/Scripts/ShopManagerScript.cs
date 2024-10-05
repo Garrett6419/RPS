@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class ShopManagerScript : MonoBehaviour
 {
@@ -41,5 +42,10 @@ public class ShopManagerScript : MonoBehaviour
             ButtonRef.transform.position = used.position;
 
         }
+    }
+
+    public void GoToBattle()
+    {
+        SceneManager.LoadScene("Battle Scene");
     }
 }
