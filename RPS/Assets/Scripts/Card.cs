@@ -47,7 +47,8 @@ public class Card : MonoBehaviour
     private void OnMouseDown() {
         if(isShopCard) {
 
-            isShopCard = false ;
+            
+
         }
         else {
             gm.battle(this) ;

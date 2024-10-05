@@ -1,11 +1,16 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine.UI;
+
 
 public class GameManager : MonoBehaviour
 {
+    //Cams
+    public Camera cam1;
+    public Camera cam2;
+
+
     // PLAYER VARIABLES
     public List<Card> deck = new List<Card>();
     public int deckSize ;
@@ -33,10 +38,15 @@ public class GameManager : MonoBehaviour
     // Shop Variables
     public int Money = 10;
     public Text moneyText ;
+    public Text ShopMoneyText;
     public Text roundText ;
+    public List<Card> shopCards = new List<Card>();
+    public Transform[] shopCardSlots;
 
 
     public void Start() {
+        cam1.enabled = true;
+        cam2.enabled = false;
         getHand() ;
         moneyText.text =  "Money: $" + Money ;
         roundText.text = "Round: " + gameRound ;
@@ -179,6 +189,10 @@ public class GameManager : MonoBehaviour
         if(gameRound >= 10) {
             playerWins() ;
         }
+        Money += 5;
+        changeScene();
+        initShop();
+
     }
 
     public void refreshEnemy() {
@@ -204,6 +218,27 @@ public class GameManager : MonoBehaviour
             enemyDeck.Insert(newCardPos, temp) ;
             enemyDeckSize++ ;
         }
+    }
+
+    public void changeScene()
+    {
+        cam1.enabled = !cam1.enabled;
+        cam2.enabled = !cam2.enabled;
+        moneyText.text = "Money: $" + Money;
+        roundText.text = "Round: " + gameRound;
+    }
+
+    public void initShop()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Card randCard = shopCards[Random.Range(0, shopCards.Count)];
+            randCard.gameObject.SetActive(true);
+            randCard.transform.position = shopCardSlots[i].position;
+            shopCards.Remove(randCard);
+        }
+
+        ShopMoneyText.text = "$" + Money;
     }
 
 
