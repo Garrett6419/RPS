@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     public Transform[] shopCardSlots;
     public Transform used;
     public bool  isShopOpen = false;
+    public List<Text> shopCardPrices = new List<Text>();
 
 
     public void Start()
@@ -383,16 +384,13 @@ public class GameManager : MonoBehaviour
 
     public void initShop()
     {
-        Debug.Log("Shop cards count: " + shopCards.Count);
         for (int i = 0; i < 3; i++)
         {
             Card randCard = shopCards[Random.Range(0, shopCards.Count)];
+            shopCardPrices[i].text = "$" + BaseCard.cardValues[randCard.cardType, 25];
             shopHand.Add(randCard);
-            Debug.Log("Selected card: " + randCard.name);
             randCard.gameObject.SetActive(true);
-            Debug.Log("Card active: " + randCard.gameObject.activeSelf);
             randCard.transform.position = shopCardSlots[i].transform.position;
-            Debug.Log("Assigned position: " + randCard.transform.position);
         }
 
         ShopMoneyText.text = "$" + Money;
@@ -406,7 +404,8 @@ public class GameManager : MonoBehaviour
             Money -= BaseCard.cardValues[boughtCard.cardType, 25];
             ShopMoneyText.text = "$" + Money;
             deck.Add(boughtCard);
-            shopHand.Remove(boughtCard);
+            int index = shopHand.IndexOf(boughtCard);
+            shopCardPrices[index].text = "";
             shopCards.Remove(boughtCard);
             boughtCard.transform.position = used.position;
         }
