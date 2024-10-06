@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
     public List<Card> shopHand = new List<Card>();
     public Transform[] shopCardSlots;
     public Transform used;
+    public bool  isShopOpen = false;
+
 
     public void Start()
     {
@@ -125,27 +127,30 @@ public class GameManager : MonoBehaviour
         if (winner == 0)
         {
             resetBoard();
-            
+            StartCoroutine(GetHand()) ;
         }
         else if (winner == 2)
         {
-            int exp = Random.Range(1, 2);
-            winner = 1;
-            for (int i = 0; i < exp; i++)
-            {
-                winner *= -1;
+            int exp = Random.Range(0,10)%2;
+            if(exp == 1) {
+                winner = 1 ;
+            }
+            else {
+                winner = 2 ;
             }
         }
         if (winner == 1)
         {
             dealDamage();
             resetBoard();
+            StartCoroutine(GetHand()) ;
             
         }
         else if (winner == -1)
         {
             takeDamage();
             resetBoard();
+            StartCoroutine(GetHand()) ;
             
         }
     }
@@ -164,7 +169,7 @@ public class GameManager : MonoBehaviour
                 gameOver();
             }
             battleHearts = 3;
-            for (int i = 0; i <            3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 battleHeartsList[i].gameObject.SetActive(true);
             }
@@ -178,7 +183,7 @@ public class GameManager : MonoBehaviour
 
         if (enemyHearts < 1)
         {
-            resetBoard();
+            
             increaseGameRound();
             
         }
@@ -200,14 +205,10 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ResetEnemyHand());
         yield return new WaitUntil(() => Hand.Count == 0 && enemyHand.Count == 0);
         yield return new WaitForEndOfFrame(); // wait for the frame to finish
-        OnResetBoardFinished(); // call the callback
+   
     }
 
-    private void OnResetBoardFinished()
-    {
-        // this method will be called when ResetBoardCoroutine finishes
-        StartCoroutine(GetHand());
-    }
+
 
     private IEnumerator ResetEnemyHand()
     {
@@ -266,7 +267,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < enemyHandSize; i++)
         {
             enemyCardUtility[i] = 0;
-            for (int j = 0; j < playerHandSize; j++)
+            for (int j = 0; j < Hand.Count; j++)
             {
                 enemyCardUtility[i] -= Hand[j].getWinner(enemyHand[i].cardType);
             }
@@ -356,6 +357,7 @@ public class GameManager : MonoBehaviour
 
     public void changeScene()
     {
+
         for (int i = 0; i < shopHand.Count; i++)
         {
             shopHand[i].transform.position = used.position;
@@ -372,6 +374,11 @@ public class GameManager : MonoBehaviour
         {
             roundText.text = "Round: " + gameRound;
         }
+
+        
+
+        
+
     }
 
     public void initShop()
@@ -407,14 +414,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator HideAllCards()
     {
-        foreach (Card card in deck)
-        {
-            card.gameObject.SetActive(false);
-        }
-        foreach (Card card in enemyDeck)
-        {
-            card.gameObject.SetActive(false);
-        }
+
         foreach (Card card in Hand)
         {
             card.gameObject.SetActive(false);
