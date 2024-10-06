@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -305,6 +306,7 @@ public class GameManager : MonoBehaviour
     public void gameOver()
     {
         Debug.Log("Game Over!");
+        SceneManager.LoadScene("Main Menu");
     }
 
     public void increaseGameRound()
@@ -431,6 +433,11 @@ public class GameManager : MonoBehaviour
         // this method will be called when all cards are hidden
         changeScene();
         initShop();
+    }
+
+    public void goToBattleScene()
+    {
+        SceneManager.LoadScene("Battle Scene");
     }
 
 }
