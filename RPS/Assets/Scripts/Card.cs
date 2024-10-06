@@ -46,7 +46,7 @@ public class Card : MonoBehaviour
 
     private void OnMouseDown() {
         if(isShopCard) {
-
+            gm.buyCard(this);
             
 
         }

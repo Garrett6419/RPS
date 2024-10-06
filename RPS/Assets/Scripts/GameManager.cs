@@ -42,7 +42,9 @@ public class GameManager : MonoBehaviour
     public Text ShopMoneyText;
     public Text roundText;
     public List<Card> shopCards = new List<Card>();
+    public List<Card> shopHand = new List<Card>();
     public Transform[] shopCardSlots;
+    public Transform used;
 
     public void Start()
     {
@@ -354,8 +356,13 @@ public class GameManager : MonoBehaviour
 
     public void changeScene()
     {
+        for (int i = 0; i < shopHand.Count; i++)
+        {
+            shopHand[i].transform.position = used.position;
+            shopHand.RemoveAt(0);
+        }
         cam1.enabled = !cam1.enabled;
-        cam2.enabled = !        cam2.enabled;
+        cam2.enabled = !cam2.enabled;
         moneyText.text = "Money: $" + Money;
         if (isBossRound)
         {
@@ -369,15 +376,33 @@ public class GameManager : MonoBehaviour
 
     public void initShop()
     {
+        Debug.Log("Shop cards count: " + shopCards.Count);
         for (int i = 0; i < 3; i++)
         {
             Card randCard = shopCards[Random.Range(0, shopCards.Count)];
+            shopHand.Add(randCard);
+            Debug.Log("Selected card: " + randCard.name);
             randCard.gameObject.SetActive(true);
-            randCard.transform.position = shopCardSlots[i].position;
-            shopCards.Remove(randCard);
+            Debug.Log("Card active: " + randCard.gameObject.activeSelf);
+            randCard.transform.position = shopCardSlots[i].transform.position;
+            Debug.Log("Assigned position: " + randCard.transform.position);
         }
 
         ShopMoneyText.text = "$" + Money;
+    }
+
+    public void buyCard(Card boughtCard)
+    {
+        if (Money >= BaseCard.cardValues[boughtCard.cardType, 25])
+        {
+            boughtCard.isShopCard = false;
+            Money -= BaseCard.cardValues[boughtCard.cardType, 25];
+            ShopMoneyText.text = "$" + Money;
+            deck.Add(boughtCard);
+            shopHand.Remove(boughtCard);
+            shopCards.Remove(boughtCard);
+            boughtCard.transform.position = used.position;
+        }
     }
 
     private IEnumerator HideAllCards()
